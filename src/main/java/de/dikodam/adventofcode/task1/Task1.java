@@ -39,21 +39,14 @@ public class Task1 {
     }
 
     private void subtask2(List<Integer> ints) {
-        BiPredicate<List<Integer>, Integer> condition2 = (list, pos0) -> {
-            int listSize = list.size();
-            int n0 = list.get(pos0);
-            int n1 = list.get((pos0 + listSize / 2) % listSize);
-            return n0 == n1;
-        };
+        BiPredicate<List<Integer>, Integer> condition2 = (list, pos0) ->
+            list.get(pos0) == (int) list.get((pos0 + list.size() / 2) % list.size());
         System.out.println("Sum of subtask2: " + subtaskSexy(condition2, ints));
     }
 
     private void subtask1(List<Integer> ints) {
-        BiPredicate<List<Integer>, Integer> condition1 = (list, pos0) -> {
-            int n0 = list.get(pos0);
-            int n1 = list.get((pos0 + 1) % list.size());
-            return n0 == n1;
-        };
+        BiPredicate<List<Integer>, Integer> condition1 = (list, pos0) ->
+            list.get(pos0) == (int) list.get((pos0 + 1) % list.size());
 
         System.out.println("Sum of subtask1: " + subtaskSexy(condition1, ints));
     }
