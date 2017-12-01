@@ -2,7 +2,7 @@ package de.dikodam.adventofcode.task1;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.BiPredicate;
 
 import static java.util.stream.Collectors.toList;
 
@@ -27,31 +27,35 @@ public class Task1 {
         subtask2(ints);
     }
 
-    private void subtask2(List<Integer> ints) {
+    private int subtaskSexy(BiPredicate<List<Integer>, Integer> sumConditionAtStartPosition, List<Integer> ints) {
         int listSize = ints.size();
         int sum = 0;
         for (int i = 0; i < listSize; i++) {
-            Integer n0 = ints.get(i);
-            Integer n1 = ints.get((i + listSize / 2) % listSize);
-            if (Objects.equals(n0, n1)) {
-                sum += n0;
+            if (sumConditionAtStartPosition.test(ints, i)) {
+                sum += ints.get(i);
             }
         }
+        return sum;
+    }
 
-        System.out.println("Sum of subtask2: " + sum);
+    private void subtask2(List<Integer> ints) {
+        BiPredicate<List<Integer>, Integer> condition2 = (list, pos0) -> {
+            int listSize = list.size();
+            int n0 = list.get(pos0);
+            int n1 = list.get((pos0 + listSize / 2) % listSize);
+            return n0 == n1;
+        };
+        System.out.println("Sum of subtask2: " + subtaskSexy(condition2, ints));
     }
 
     private void subtask1(List<Integer> ints) {
-        int sum = 0;
-        int listSize = ints.size();
-        for (int i = 0; i < listSize; i++) {
-            Integer n0 = ints.get(i);
-            Integer n1 = ints.get((i + 1) % listSize);
-            if (Objects.equals(n0, n1)) {
-                sum += n0;
-            }
-        }
-        System.out.println("Sum of subtask1: " + sum);
+        BiPredicate<List<Integer>, Integer> condition1 = (list, pos0) -> {
+            int n0 = list.get(pos0);
+            int n1 = list.get((pos0 + 1) % list.size());
+            return n0 == n1;
+        };
+
+        System.out.println("Sum of subtask1: " + subtaskSexy(condition1, ints));
     }
 
     public List<Integer> parseStringToInts(String inputString) {
