@@ -41,19 +41,21 @@ public class Day02 {
 
     private void task2(List<List<Integer>> lines) {
         int checksum = lines.stream()
-            .map(this::findDivisionTuple)
-            .mapToInt(divTuple -> divTuple[0] / divTuple[1])
+            .mapToInt(this::findDivisionResult)
             .sum();
         System.out.println("The checksum for task 2 is: " + checksum);
     }
 
-    private int[] findDivisionTuple(List<Integer> line) {
+    private int findDivisionResult(List<Integer> line) {
         for (int i = 0; i < line.size(); i++) {
             for (int j = i + 1; j < line.size(); j++) {
                 int a = line.get(i);
                 int b = line.get(j);
-                if (a % b == 0 || b % a == 0) {
-                    return new int[]{Math.max(a, b), Math.min(a, b)};
+                if (a % b == 0) {
+                    return a / b;
+                }
+                if (b % a == 0) {
+                    return b / a;
                 }
             }
         }
