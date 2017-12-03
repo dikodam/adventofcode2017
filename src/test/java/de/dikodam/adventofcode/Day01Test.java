@@ -1,4 +1,4 @@
-package de.dikodam.adventofcode.task1;
+package de.dikodam.adventofcode;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,13 +8,13 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 
-public class Task1Test {
+public class Day01Test {
 
-    Task1 tested;
+    Day01 tested;
 
     @Before
     public void setUp() {
-        tested = new Task1();
+        tested = new Day01();
     }
 
     @Test
