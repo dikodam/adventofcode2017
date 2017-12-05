@@ -1,5 +1,6 @@
 package de.dikodam.adventofcode;
 
+import de.dikodam.adventofcode.day01.Day01;
 import org.junit.Before;
 import org.junit.Test;
 

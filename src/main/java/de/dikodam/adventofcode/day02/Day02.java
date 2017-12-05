@@ -1,4 +1,4 @@
-package de.dikodam.adventofcode;
+package de.dikodam.adventofcode.day02;
 
 import java.util.Arrays;
 import java.util.List;
