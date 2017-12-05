@@ -1,6 +1,6 @@
 package de.dikodam.adventofcode.day03;
 
-import de.dikodam.adventofcode.Tuple;
+import de.dikodam.adventofcode.tools.Tuple;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,4 +1,4 @@
-package de.dikodam.adventofcode;
+package de.dikodam.adventofcode.tools;
 
 import java.util.Objects;
 

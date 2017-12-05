@@ -1,10 +1,7 @@
 package de.dikodam.adventofcode.day04;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URISyntaxException;
+import de.dikodam.adventofcode.tools.Tools;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +22,8 @@ public class Day04 {
     }
 
     private void task2() {
-        long validPassphrasesCount = getUnvalidatedPassphrases()
+        long validPassphrasesCount = Tools
+            .getUnvalidatedPassphrases("day04input")
             .stream()
             .filter(this::isPassphraseValid2)
             .count();
@@ -50,7 +48,8 @@ public class Day04 {
     }
 
     private void task1() {
-        int validPassphrasesCount = (int) getUnvalidatedPassphrases()
+        int validPassphrasesCount = (int) Tools
+            .getUnvalidatedPassphrases("day04input")
             .stream()
             .filter(this::isPassphraseValid1)
             .count();
@@ -60,15 +59,5 @@ public class Day04 {
     private boolean isPassphraseValid1(String s) {
         String[] words = s.split(" ");
         return Arrays.stream(words).distinct().count() == words.length;
-    }
-
-    private List<String> getUnvalidatedPassphrases() {
-        try (BufferedReader br = new BufferedReader(new FileReader(
-            new File(this.getClass().getResource("/day04input").toURI())))) {
-            return br.lines().collect(toList());
-        } catch (IOException | URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 }
