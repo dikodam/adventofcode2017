@@ -23,7 +23,7 @@ public class Day04 {
 
     private void task2() {
         long validPassphrasesCount = Tools
-            .getUnvalidatedPassphrases("day04input")
+            .getInput("day04input")
             .stream()
             .filter(this::isPassphraseValid2)
             .count();
@@ -49,7 +49,7 @@ public class Day04 {
 
     private void task1() {
         int validPassphrasesCount = (int) Tools
-            .getUnvalidatedPassphrases("day04input")
+            .getInput("day04input")
             .stream()
             .filter(this::isPassphraseValid1)
             .count();

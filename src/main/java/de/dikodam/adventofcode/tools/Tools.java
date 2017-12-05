@@ -11,7 +11,7 @@ import static java.util.stream.Collectors.toList;
 
 public class Tools {
 
-    public static List<String> getUnvalidatedPassphrases(String fileName) {
+    public static List<String> getInput(String fileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(
             new File(Tools.class.getResource("/" + fileName).toURI())))) {
             return br.lines().collect(toList());
