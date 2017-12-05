@@ -2,21 +2,21 @@ package de.dikodam.adventofcode.day03;
 
 import java.util.Objects;
 
-public class Position {
-    private final int x;
-    private final int y;
+public class Tuple<X,Y> {
+    private final X x;
+    private final Y y;
 
-    public Position(int x, int y) {
+    public Tuple(X x, Y y) {
         this.x = x;
         this.y = y;
 
     }
 
-    public int getX() {
+    public X getX() {
         return x;
     }
 
-    public int getY() {
+    public Y getY() {
         return y;
     }
 
@@ -24,9 +24,9 @@ public class Position {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Position position = (Position) o;
-        return x == position.x &&
-            y == position.y;
+        Tuple tuple = (Tuple) o;
+        return x == tuple.x &&
+            y == tuple.y;
     }
 
     @Override
@@ -36,6 +36,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return "Position[" + x + "|" + y + "]";
+        return "Tuple[" + x + "|" + y + "]";
     }
 }
