@@ -50,7 +50,7 @@ public class Day05 {
 
     private Map<Integer, Integer> getDay05input() {
         List<Integer> input = Tools
-            .getInput("day05input")
+            .getInput(this.getClass().getSimpleName())
             .stream()
             .map(Integer::parseInt)
             .collect(toList());
