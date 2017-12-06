@@ -6,8 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 public class Day03 {
 
@@ -77,7 +78,7 @@ public class Day03 {
     private List<Tuple<Integer, Integer>> buildGraph(int maxNumber) {
         return Stream.iterate(new Tuple<>(0, 0), this::nextPosition)
             .limit(maxNumber)
-            .collect(Collectors.toList());
+            .collect(toList());
     }
 
     public Tuple<Integer, Integer> nextPosition(Tuple<Integer, Integer> previousPosition) {
