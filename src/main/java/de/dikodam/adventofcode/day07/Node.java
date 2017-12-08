@@ -42,7 +42,7 @@ public class Node {
 
     public boolean hasUnbalancedSubtree() {
         long countOfDistinctSubTreeWeights = children.stream()
-            .mapToInt(Node::getWeightOfSubTree)
+            .mapToInt(Node::getDeepWeigth)
             .distinct()
             .count();
         return countOfDistinctSubTreeWeights > 1;
@@ -54,13 +54,13 @@ public class Node {
             .sum();
     }
 
-    public int getWeightOfEntireTree() {
+    public int getDeepWeigth() {
         return weight + getWeightOfSubTree();
 
     }
 
     @Override
     public String toString() {
-        return String.format("%s: (%d)", name, weight);
+        return String.format("%s: (w:%d, dw: %d)", name, weight, getDeepWeigth());
     }
 }
