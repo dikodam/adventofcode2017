@@ -1,5 +1,6 @@
 package de.dikodam.adventofcode.day07;
 
+import de.dikodam.adventofcode.tools.AbstractDay;
 import de.dikodam.adventofcode.tools.Tools;
 
 import java.util.Arrays;
@@ -11,16 +12,19 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
-public class Day07 {
+public class Day07 extends AbstractDay {
 
     private Map<String, Node> nodes;
     private List<Edge> edges;
 
     public static void main(String[] args) {
         Day07 day07 = new Day07();
-        day07.init();
         day07.task1();
         day07.task2();
+    }
+
+    public Day07() {
+        init();
     }
 
     private void init() {
@@ -30,7 +34,8 @@ public class Day07 {
         buildGraph();
     }
 
-    private void task1() {
+    @Override
+    public void task1() {
         Node root = findRootNode();
         System.out.println("Task 1: root node is " + root.getName());
     }
@@ -85,26 +90,6 @@ public class Day07 {
         return new Node(name, weight);
     }
 
-    private void task2() {
-        nodes.entrySet()
-            .stream()
-            .map(Map.Entry::getValue)
-            .filter(Node::hasUnbalancedSubtree)
-            .collect(toList())
-            .forEach(node -> {
-                         System.out.println("node with unbalanced children: " + node);
-                         System.out.print("children: ");
-                         node.getChildren().forEach(subNode -> System.out.print(subNode + ", "));
-                         System.out.println();
-                         System.out.println();
-                     }
-
-            );
-
-        //.collect(toMap(Node::getName, this::getWeightOfSubTree));
-
-    }
-
     private void buildGraph() {
         for (Edge edge : edges) {
             Node ancestor = edge.getAncestor();
@@ -112,5 +97,11 @@ public class Day07 {
             ancestor.addChild(child);
             child.setAncestor(ancestor);
         }
+    }
+
+    @Override
+    public void task2() {
+        Node rootNode = findRootNode();
+
     }
 }

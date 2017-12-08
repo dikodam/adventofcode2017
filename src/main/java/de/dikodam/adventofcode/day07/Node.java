@@ -40,27 +40,10 @@ public class Node {
         this.children.add(child);
     }
 
-    public boolean hasUnbalancedSubtree() {
-        long countOfDistinctSubTreeWeights = children.stream()
-            .mapToInt(Node::getDeepWeigth)
-            .distinct()
-            .count();
-        return countOfDistinctSubTreeWeights > 1;
-    }
 
-    public int getWeightOfSubTree() {
-        return children.stream()
-            .mapToInt(Node::getWeightOfSubTree)
-            .sum();
-    }
-
-    public int getDeepWeigth() {
-        return weight + getWeightOfSubTree();
-
-    }
 
     @Override
     public String toString() {
-        return String.format("%s: (w:%d, dw: %d)", name, weight, getDeepWeigth());
+        return String.format("%s: (%d)", name, weight);
     }
 }

@@ -16,8 +16,8 @@ public class Day08 extends AbstractDay {
 
     public static void main(String[] args) {
         Day08 day08 = new Day08();
-        day08.task01();
-        day08.task02();
+        day08.task1();
+        day08.task2();
     }
 
     private List<String> input;
@@ -28,7 +28,7 @@ public class Day08 extends AbstractDay {
     }
 
     @Override
-    public void task01() {
+    public void task1() {
         registers = input.stream()
             .map(this::extractRegister)
             .distinct()
@@ -117,7 +117,7 @@ public class Day08 extends AbstractDay {
     }
 
     @Override
-    public void task02() {
+    public void task2() {
         System.out.println("Task 2: Max value ever is : " + max);
     }
 }
