@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 
 public class Day08 extends AbstractDay {
 
+    private Integer max = 0;
+
     public static void main(String[] args) {
         Day08 day08 = new Day08();
         day08.task01();
@@ -33,7 +35,7 @@ public class Day08 extends AbstractDay {
             .collect(Collectors.toMap(Function.identity(), (s) -> 0));
 
         input.stream()
-            .map(line -> line.split("if "))
+            .map(this::splitLineInOpAndCond)
             .filter(splitInputLine -> evaluateCondition(splitInputLine[1]))
             .forEach(splitInputLine -> runOperation(splitInputLine[0]));
 
@@ -46,14 +48,25 @@ public class Day08 extends AbstractDay {
 
     }
 
+    private String[] splitLineInOpAndCond(String line) {
+        return line.split("if ");
+    }
+
     private void runOperation(String operationLine) {
         String[] splitOpLine = operationLine.split(" ");
         String registerAdress = splitOpLine[0];
         BiFunction<Integer, Integer, Integer> operation = getOperation(splitOpLine[1]);
         Integer operand = Integer.parseInt(splitOpLine[2]);
 
-        Integer result = operation.apply(registers.get(registerAdress), operand);
-        registers.put(registerAdress, result);
+        Integer newRegisterValue = operation.apply(registers.get(registerAdress), operand);
+        testForMax(newRegisterValue);
+        registers.put(registerAdress, newRegisterValue);
+    }
+
+    private void testForMax(Integer newRegisterValue) {
+        if (newRegisterValue > max) {
+            max = newRegisterValue;
+        }
     }
 
     private BiFunction<Integer, Integer, Integer> getOperation(String operator) {
@@ -63,7 +76,7 @@ public class Day08 extends AbstractDay {
             case "dec":
                 return (a, b) -> a - b;
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(operator);
         }
     }
 
@@ -105,6 +118,6 @@ public class Day08 extends AbstractDay {
 
     @Override
     public void task02() {
-
+        System.out.println("Task 2: Max value ever is : " + max);
     }
 }
