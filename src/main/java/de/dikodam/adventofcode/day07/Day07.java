@@ -3,10 +3,7 @@ package de.dikodam.adventofcode.day07;
 import de.dikodam.adventofcode.tools.AbstractDay;
 import de.dikodam.adventofcode.tools.Tools;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -101,7 +98,30 @@ public class Day07 extends AbstractDay {
 
     @Override
     public void task2() {
-        Node rootNode = findRootNode();
+        Node iterNode = findRootNode();
+        while (iterNode.hasUnbalancedSubtree()) {
+            iterNode.printTree();
+            iterNode = iterNode.getUnbalancedSubNode().get();
+        }
+        System.out.println("unbalanced shit node: " + iterNode);
+
+        Node unbalancedNode = iterNode;
+
+        OptionalInt optProperDeepWeight = unbalancedNode.getAncestor()
+            .getChildren() // neighbors
+            .stream()
+            .mapToInt(Node::getDeepWeight)
+            .distinct()
+            .filter(deepWeight -> deepWeight != unbalancedNode.getDeepWeight())
+            .findFirst();
+
+        if (optProperDeepWeight.isPresent()) {
+            int properDeepWeight = optProperDeepWeight.getAsInt();
+            System.out.println("proper weight should be: " + properDeepWeight);
+            int difference = properDeepWeight - unbalancedNode.getDeepWeight();
+            int properNodeWeight = unbalancedNode.getWeight() + difference;
+            System.out.println("TASK 2: proper weight of unbalanced node should be: " + properNodeWeight);
+        }
 
     }
 }
