@@ -103,7 +103,7 @@ public class Day10 extends AbstractDay {
         // 8. result should be 16 numbers
         // 9. take 2-digit hexadecimal respresentation of those 16 numbers
         String denseHash = buildDenseHashStream(list)
-            .mapToObj(Integer::toHexString)
+            .mapToObj(i -> String.format("%02x", i))
             .collect(joining());
 
         // 10. should be 32 digit long, is the dense hash and the answer
