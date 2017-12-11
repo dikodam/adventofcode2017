@@ -5,10 +5,15 @@ import de.dikodam.adventofcode.tools.AbstractDay;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 public class Day10 extends AbstractDay {
+
+    int currentPosition;
+    int skipSize;
 
     public static void main(String[] args) {
         Day10 day10 = new Day10();
@@ -21,24 +26,29 @@ public class Day10 extends AbstractDay {
         String[] splitInputString = getInput(this.getClass().getSimpleName())
             .get(0)
             .split(",");
-        List<Integer> input = Arrays.stream(splitInputString)
+        List<Integer> lengths = Arrays.stream(splitInputString)
             .map(Integer::parseInt)
             .collect(toList());
-        int currentPosition = 0;
-        int skipSize = 0;
+        currentPosition = 0;
+        skipSize = 0;
         int[] list = IntStream.range(0, 256)
             .toArray();
 
-        for (int length : input) {
-            int[] sublist = getSubList(list, currentPosition, length);
-            sublist = reverse(sublist);
-            list = write(sublist, list, currentPosition);
-            currentPosition += length + skipSize;
-            skipSize++;
-        }
+        list = hash(list, lengths);
 
         int hash = list[0] * list[1];
         System.out.println("Task 1: hash is " + hash);
+    }
+
+    private int[] hash(int[] list, List<Integer> lenghts) {
+        for (int length : lenghts) {
+            int[] sublist = getSubList(list, currentPosition, length);
+            sublist = reverse(sublist);
+            list = write(sublist, list, currentPosition);
+            currentPosition += (length + skipSize);
+            skipSize++;
+        }
+        return list;
     }
 
     private int[] write(int[] sublist, int[] targetList, int currentPosition) {
@@ -68,6 +78,49 @@ public class Day10 extends AbstractDay {
 
     @Override
     public void task2() {
-        System.out.println("Task 2: ");
+        String input = getInput(this.getClass().getSimpleName())
+            .get(0).trim();
+
+        // 1. treat each input character as an ASCII character
+        // 2. translate each char to its numerical representation ("byte"), separate by commas
+        // 3. append 17, 31, 73, 47, 23
+        Stream<Integer> inputStream = input.chars().boxed();
+        Stream<Integer> suffixStream = Stream.of(17, 31, 73, 47, 23);
+        List<Integer> lengths = Stream.concat(inputStream, suffixStream)
+            .collect(toList());
+
+        currentPosition = 0;
+        skipSize = 0;
+        // 4. run 64 rounds of hashing algorithm (each time with the same length sequence)
+        // 5. preserve cP and skip between rounds
+        int[] list = IntStream.range(0, 256).toArray();
+        for (int i = 0; i < 64; i++) {
+            list = hash(list, lengths);
+        }
+
+        // 6. result is sparse hash, 16 times 16 numbers
+        // 7. consecutively XOR every 16 element groups of sparse hash
+        // 8. result should be 16 numbers
+        // 9. take 2-digit hexadecimal respresentation of those 16 numbers
+        String denseHash = buildDenseHashStream(list)
+            .mapToObj(Integer::toHexString)
+            .collect(joining());
+
+        // 10. should be 32 digit long, is the dense hash and the answer
+        System.out.println("Task 2: dense hash is: " + denseHash);
     }
+
+    private IntStream buildDenseHashStream(int[] sparseHash) {
+        return IntStream.range(0, 16)
+            .map(groupIndex ->
+                     Arrays
+                         .stream(sparseHash, groupIndex * 16, groupIndex * 16 + 16)
+                         .reduce(0, this::xor)
+            );
+    }
+
+    private int xor(int first, int second) {
+        return first ^ second;
+    }
+
 }
