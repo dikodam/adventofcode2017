@@ -1,7 +1,6 @@
 package de.dikodam.adventofcode.day08;
 
 import de.dikodam.adventofcode.tools.AbstractDay;
-import de.dikodam.adventofcode.tools.Tools;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,7 @@ public class Day08 extends AbstractDay {
     private Map<String, Integer> registers;
 
     public Day08() {
-        input = Tools.getInput(this.getClass().getSimpleName());
+        input = getInput(this.getClass().getSimpleName());
     }
 
     @Override

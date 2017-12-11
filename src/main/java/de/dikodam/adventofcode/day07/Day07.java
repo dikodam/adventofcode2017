@@ -1,7 +1,6 @@
 package de.dikodam.adventofcode.day07;
 
 import de.dikodam.adventofcode.tools.AbstractDay;
-import de.dikodam.adventofcode.tools.Tools;
 
 import java.util.*;
 import java.util.function.Function;
@@ -25,7 +24,7 @@ public class Day07 extends AbstractDay {
     }
 
     private void init() {
-        List<String> input = Tools.getInput(this.getClass().getSimpleName());
+        List<String> input = getInput(this.getClass().getSimpleName());
         nodes = getNodes(input);
         edges = getEdges(input);
         buildGraph();

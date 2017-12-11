@@ -1,6 +1,6 @@
 package de.dikodam.adventofcode.day04;
 
-import de.dikodam.adventofcode.tools.Tools;
+import de.dikodam.adventofcode.tools.AbstractDay;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
-public class Day04 {
+public class Day04 extends AbstractDay {
     public static void main(String[] args) {
         new Day04();
     }
@@ -21,9 +21,8 @@ public class Day04 {
         task2();
     }
 
-    private void task2() {
-        long validPassphrasesCount = Tools
-            .getInput(this.getClass().getSimpleName())
+    public void task2() {
+        long validPassphrasesCount = getInput(this.getClass().getSimpleName())
             .stream()
             .filter(this::isPassphraseValid2)
             .count();
@@ -47,9 +46,9 @@ public class Day04 {
             .collect(groupingBy(Function.identity(), Collectors.counting()));
     }
 
-    private void task1() {
-        int validPassphrasesCount = (int) Tools
-            .getInput(this.getClass().getSimpleName())
+    public void task1() {
+        int validPassphrasesCount = (int)
+            getInput(this.getClass().getSimpleName())
             .stream()
             .filter(this::isPassphraseValid1)
             .count();

@@ -1,10 +1,10 @@
 package de.dikodam.adventofcode.day06;
 
-import de.dikodam.adventofcode.tools.Tools;
+import de.dikodam.adventofcode.tools.AbstractDay;
 
 import java.util.*;
 
-public class Day06 {
+public class Day06 extends AbstractDay{
     private int[] memorybank;
 
     public static void main(String[] args) {
@@ -13,7 +13,7 @@ public class Day06 {
         day06.task2();
     }
 
-    private void task1() {
+    public void task1() {
         int stepCounter = doALoop(getInput());
         System.out.println("Task 1: Took " + stepCounter + " to finish reallocation of memory");
     }
@@ -64,8 +64,7 @@ public class Day06 {
     }
 
     private int[] getInput() {
-        String[] input = Tools
-            .getInput(this.getClass().getSimpleName())
+        String[] input = getInput(this.getClass().getSimpleName())
             .get(0)
             .split("\t");
         return Arrays.stream(input)
@@ -73,7 +72,7 @@ public class Day06 {
             .toArray();
     }
 
-    private void task2() {
+    public void task2() {
         int steps = doALoop(memorybank);
         System.out.println("Task 2: " + steps + " had to be taken to see the same config a second time");
     }
