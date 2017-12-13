@@ -1,6 +1,12 @@
 package de.dikodam.adventofcode.day13;
 
 import de.dikodam.adventofcode.tools.AbstractDay;
+import de.dikodam.adventofcode.tools.Tuple;
+
+import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.toMap;
 
 public class Day13 extends AbstractDay {
     public static void main(String[] args) {
@@ -9,9 +15,43 @@ public class Day13 extends AbstractDay {
         day13.task2();
     }
 
+    Map<Integer, Integer> firewall;
+
+    public Day13() {
+        List<String> input = getInput();
+        firewall = input.stream()
+            .map(this::parseInputLine)
+            .collect(toMap(Tuple::getX, Tuple::getY));
+    }
+
+    private Tuple<Integer, Integer> parseInputLine(String inputLine) {
+        String[] splitInputLine = inputLine.split(": ");
+        return new Tuple<>(Integer.parseInt(splitInputLine[0]), Integer.parseInt(splitInputLine[1]));
+    }
+
     @Override
     public void task1() {
-        getInput().forEach(System.out::println);
+        int severityStreamed = firewall.entrySet()
+            .stream()
+            .peek(e -> System.out.println("prefilter : " + e.toString()))
+            .filter(entry -> isDetectedByScanner(entry.getKey(), entry.getValue()))
+            .peek(e -> System.out.println("filtered : " + e.toString()))
+            .mapToInt(entry -> computeSeverity(entry.getKey(), entry.getValue()))
+            .peek(s -> System.out.println("sum : " + s))
+            .sum();
+
+        System.out.println("Task 1: Severity (stream) is: " + severityStreamed);
+    }
+
+    Integer computeSeverity(int layer, int depth) {
+        return layer * depth;
+    }
+
+    boolean isDetectedByScanner(int layer, int depth) {
+        if (depth < 2) {
+            return layer % (depth - 1) == 0;
+        }
+        return layer % depth == 0;
     }
 
     @Override
