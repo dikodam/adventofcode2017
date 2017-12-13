@@ -28,7 +28,7 @@ public class Day12 extends AbstractDay {
     @Override
     public void task1() {
         Set<Integer> equivalenceClassFor0 = getEquivalenceClassFor(0);
-        System.out.println("The size of the 0 group is " + equivalenceClassFor0.size());
+        System.out.println("Task 1: The size of the 0 group is " + equivalenceClassFor0.size());
     }
 
     private Set<Integer> getEquivalenceClassFor(int root) {
@@ -62,6 +62,18 @@ public class Day12 extends AbstractDay {
 
     @Override
     public void task2() {
+        Set<Set<Integer>> equivalenceClasses = new HashSet<>();
+        for (Integer value : dependencies.keySet()) {
+            if (!equivalenceClassExistsFor(value, equivalenceClasses)) {
+                equivalenceClasses.add(getEquivalenceClassFor(value));
+            }
+        }
+        System.out.println("Task 2: There are " + equivalenceClasses.size() + " equivalence classes");
+    }
 
+    private boolean equivalenceClassExistsFor(Integer value, Set<Set<Integer>> equivalenceClasses) {
+        return equivalenceClasses.stream()
+            .flatMap(Set::stream)
+            .anyMatch(value::equals);
     }
 }

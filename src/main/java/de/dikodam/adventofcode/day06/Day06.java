@@ -14,7 +14,7 @@ public class Day06 extends AbstractDay{
     }
 
     public void task1() {
-        int stepCounter = doALoop(getInput());
+        int stepCounter = doALoop(parseInput());
         System.out.println("Task 1: Took " + stepCounter + " to finish reallocation of memory");
     }
 
@@ -63,7 +63,7 @@ public class Day06 extends AbstractDay{
         return index;
     }
 
-    private int[] getInput() {
+    private int[] parseInput() {
         String[] input = getInput(this.getClass().getSimpleName())
             .get(0)
             .split("\t");
