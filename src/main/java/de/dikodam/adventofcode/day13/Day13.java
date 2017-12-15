@@ -24,7 +24,7 @@ public class Day13 extends AbstractDay {
             .collect(toMap(Tuple::getX, Tuple::getY));
     }
 
-    private Tuple<Integer, Integer> parseInputLine(String inputLine) {
+    Tuple<Integer, Integer> parseInputLine(String inputLine) {
         String[] splitInputLine = inputLine.split(": ");
         return new Tuple<>(Integer.parseInt(splitInputLine[0]), Integer.parseInt(splitInputLine[1]));
     }
@@ -33,29 +33,42 @@ public class Day13 extends AbstractDay {
     public void task1() {
         int severityStreamed = firewall.entrySet()
             .stream()
-            .peek(e -> System.out.println("prefilter : " + e.toString()))
             .filter(entry -> isDetectedByScanner(entry.getKey(), entry.getValue()))
-            .peek(e -> System.out.println("filtered : " + e.toString()))
             .mapToInt(entry -> computeSeverity(entry.getKey(), entry.getValue()))
-            .peek(s -> System.out.println("sum : " + s))
             .sum();
 
         System.out.println("Task 1: Severity (stream) is: " + severityStreamed);
     }
 
-    Integer computeSeverity(int layer, int depth) {
+    public int computeSeverity(int layer, int depth) {
         return layer * depth;
     }
 
-    boolean isDetectedByScanner(int layer, int depth) {
-        if (depth < 2) {
-            return layer % (depth - 1) == 0;
+    public boolean isDetectedByScanner(int pictoseconds, int depth) {
+        // stepping onto first scanner
+        if (pictoseconds == 0) {
+            return true;
         }
-        return layer % depth == 0;
+
+        if (depth <= 2) {
+            return pictoseconds % depth == 0;
+        }
+        return pictoseconds % (2 * (depth - 1)) == 0;
     }
 
     @Override
     public void task2() {
+        int delay = 1;
+        while (isDetectedByScannerAfterDelayOf(delay)) {
+            delay++;
+        }
 
+        System.out.println("Task 2: delay needed is " + delay);
+    }
+
+    private boolean isDetectedByScannerAfterDelayOf(int i) {
+        return firewall.entrySet()
+            .stream()
+            .anyMatch(entry -> isDetectedByScanner(entry.getKey() + i, entry.getValue()));
     }
 }
