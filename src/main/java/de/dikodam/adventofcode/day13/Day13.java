@@ -24,11 +24,6 @@ public class Day13 extends AbstractDay {
             .collect(toMap(Tuple::getX, Tuple::getY));
     }
 
-    Tuple<Integer, Integer> parseInputLine(String inputLine) {
-        String[] splitInputLine = inputLine.split(": ");
-        return new Tuple<>(Integer.parseInt(splitInputLine[0]), Integer.parseInt(splitInputLine[1]));
-    }
-
     @Override
     public void task1() {
         int severityStreamed = firewall.entrySet()
@@ -38,6 +33,21 @@ public class Day13 extends AbstractDay {
             .sum();
 
         System.out.println("Task 1: Severity (stream) is: " + severityStreamed);
+    }
+
+    @Override
+    public void task2() {
+        int delay = 1;
+        while (isDetectedByScannerAfterDelayOf(delay)) {
+            delay++;
+        }
+
+        System.out.println("Task 2: delay needed is " + delay);
+    }
+
+    Tuple<Integer, Integer> parseInputLine(String inputLine) {
+        String[] splitInputLine = inputLine.split(": ");
+        return new Tuple<>(Integer.parseInt(splitInputLine[0]), Integer.parseInt(splitInputLine[1]));
     }
 
     public int computeSeverity(int layer, int depth) {
@@ -54,16 +64,6 @@ public class Day13 extends AbstractDay {
             return pictoseconds % depth == 0;
         }
         return pictoseconds % (2 * (depth - 1)) == 0;
-    }
-
-    @Override
-    public void task2() {
-        int delay = 1;
-        while (isDetectedByScannerAfterDelayOf(delay)) {
-            delay++;
-        }
-
-        System.out.println("Task 2: delay needed is " + delay);
     }
 
     private boolean isDetectedByScannerAfterDelayOf(int i) {
