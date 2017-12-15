@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -18,8 +17,7 @@ public abstract class AbstractDay {
 
     public static <Day extends AbstractDay> void execute(Class<Day> clazz) {
         try {
-            Constructor<Day> dayConstructor = clazz.getConstructor();
-            Day day = dayConstructor.newInstance();
+            Day day = clazz.getConstructor().newInstance();
             day.task1();
             day.task2();
         } catch (ReflectiveOperationException e) {

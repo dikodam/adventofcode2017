@@ -10,11 +10,13 @@ public class Day15 extends AbstractDay {
 
     @Override
     public void task1() {
+        System.out.println("Task 1: ");
 
     }
 
     @Override
     public void task2() {
+        System.out.println("Task 2: ");
 
     }
 }

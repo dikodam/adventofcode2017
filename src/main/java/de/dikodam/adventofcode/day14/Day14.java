@@ -5,18 +5,17 @@ import de.dikodam.adventofcode.tools.AbstractDay;
 public class Day14 extends AbstractDay {
 
     public static void main(String[] args) {
-        Day14 day14 = new Day14();
-        day14.task1();
-        day14.task2();
+        execute(Day14.class);
     }
 
     @Override
     public void task1() {
-
+        System.out.println("Task 1: ");
     }
 
     @Override
     public void task2() {
+        System.out.println("Task 2: ");
 
     }
 }
