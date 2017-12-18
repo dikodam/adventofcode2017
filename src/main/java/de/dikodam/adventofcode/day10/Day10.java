@@ -1,13 +1,12 @@
 package de.dikodam.adventofcode.day10;
 
 import de.dikodam.adventofcode.tools.AbstractDay;
+import de.dikodam.adventofcode.tools.KnotHash;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 public class Day10 extends AbstractDay {
@@ -34,13 +33,14 @@ public class Day10 extends AbstractDay {
         int[] list = IntStream.range(0, 256)
             .toArray();
 
-        list = hash(list, lengths);
+
+        list = hashRound(list, lengths);
 
         int hash = list[0] * list[1];
-        System.out.println("Task 1: hash is " + hash);
+        System.out.println("Task 1: hashRound is " + hash);
     }
 
-    private int[] hash(int[] list, List<Integer> lenghts) {
+    public int[] hashRound(int[] list, List<Integer> lenghts) {
         for (int length : lenghts) {
             int[] sublist = getSubList(list, currentPosition, length);
             sublist = reverse(sublist);
@@ -51,12 +51,12 @@ public class Day10 extends AbstractDay {
         return list;
     }
 
-    private int[] write(int[] sublist, int[] targetList, int currentPosition) {
-        for (int i = 0; i < sublist.length; i++) {
-            int targetPosition = (i + currentPosition) % targetList.length;
-            targetList[targetPosition] = sublist[i];
+    private int[] getSubList(int[] list, int fromInclusive, int lenght) {
+        int[] sublist = new int[lenght];
+        for (int i = 0; i < lenght; i++) {
+            sublist[i] = list[(fromInclusive + i) % list.length];
         }
-        return targetList;
+        return sublist;
     }
 
     private int[] reverse(int[] sublist) {
@@ -68,12 +68,12 @@ public class Day10 extends AbstractDay {
         return newSublist;
     }
 
-    private int[] getSubList(int[] list, int fromInclusive, int lenght) {
-        int[] sublist = new int[lenght];
-        for (int i = 0; i < lenght; i++) {
-            sublist[i] = list[(fromInclusive + i) % list.length];
+    private int[] write(int[] sublist, int[] targetList, int currentPosition) {
+        for (int i = 0; i < sublist.length; i++) {
+            int targetPosition = (i + currentPosition) % targetList.length;
+            targetList[targetPosition] = sublist[i];
         }
-        return sublist;
+        return targetList;
     }
 
     @Override
@@ -81,46 +81,11 @@ public class Day10 extends AbstractDay {
         String input = getInput(this.getClass().getSimpleName())
             .get(0).trim();
 
-        // 1. treat each input character as an ASCII character
-        // 2. translate each char to its numerical representation ("byte"), separate by commas
-        // 3. append 17, 31, 73, 47, 23
-        Stream<Integer> inputStream = input.chars().boxed();
-        Stream<Integer> suffixStream = Stream.of(17, 31, 73, 47, 23);
-        List<Integer> lengths = Stream.concat(inputStream, suffixStream)
-            .collect(toList());
+        KnotHash knotHash = new KnotHash();
+        String denseHash = knotHash.denseHash(knotHash.sparseHash(256,input));
 
-        currentPosition = 0;
-        skipSize = 0;
-        // 4. run 64 rounds of hashing algorithm (each time with the same length sequence)
-        // 5. preserve cP and skip between rounds
-        int[] list = IntStream.range(0, 256).toArray();
-        for (int i = 0; i < 64; i++) {
-            list = hash(list, lengths);
-        }
-
-        // 6. result is sparse hash, 16 times 16 numbers
-        // 7. consecutively XOR every 16 element groups of sparse hash
-        // 8. result should be 16 numbers
-        // 9. take 2-digit hexadecimal respresentation of those 16 numbers
-        String denseHash = buildDenseHashStream(list)
-            .mapToObj(i -> String.format("%02x", i))
-            .collect(joining());
-
-        // 10. should be 32 digit long, is the dense hash and the answer
-        System.out.println("Task 2: dense hash is: " + denseHash);
-    }
-
-    private IntStream buildDenseHashStream(int[] sparseHash) {
-        return IntStream.range(0, 16)
-            .map(groupIndex ->
-                     Arrays
-                         .stream(sparseHash, groupIndex * 16, groupIndex * 16 + 16)
-                         .reduce(0, this::xor)
-            );
-    }
-
-    private int xor(int first, int second) {
-        return first ^ second;
+        // 10. should be 32 digit long, is the dense hashRound and the answer
+        System.out.println("Task 2: dense hashRound is: " + denseHash);
     }
 
 }
