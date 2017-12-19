@@ -14,7 +14,7 @@ public class Day14 extends AbstractDay {
     KnotHash knotHash;
 
     public static void main(String[] args) {
-        execute(Day14.class);
+        doTheMagic(Day14.class);
     }
 
     public Day14() {

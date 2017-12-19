@@ -15,7 +15,7 @@ public abstract class AbstractDay {
 
     public abstract void task2();
 
-    public static <Day extends AbstractDay> void execute(Class<Day> clazz) {
+    public static <Day extends AbstractDay> void doTheMagic(Class<Day> clazz) {
         try {
             Day day = clazz.getConstructor().newInstance();
             day.task1();

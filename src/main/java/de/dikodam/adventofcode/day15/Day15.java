@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class Day15 extends AbstractDay {
 
     public static void main(String[] args) {
-        execute(Day15.class);
+        doTheMagic(Day15.class);
     }
 
     private static long FACTOR_A = 16807;
