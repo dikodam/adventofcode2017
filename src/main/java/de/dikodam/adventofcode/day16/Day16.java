@@ -2,6 +2,7 @@ package de.dikodam.adventofcode.day16;
 
 import de.dikodam.adventofcode.tools.AbstractDay;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -15,6 +16,7 @@ public class Day16 extends AbstractDay {
     }
 
     List<Function<char[], char[]>> danceMoves;
+    List<Function<String, String>> stringDanceMoves;
 
     public Day16() {
         String input = getInput().get(0);
@@ -27,9 +29,7 @@ public class Day16 extends AbstractDay {
     @Override
     public void task1() {
         char[] state = initState();
-        for (Function<char[], char[]> danceMove : danceMoves) {
-            state = danceMove.apply(state);
-        }
+        state = oneIterationRound(state);
         String finalState = stateToString(state);
         System.out.println("Task 1: final state is " + finalState);
     }
@@ -58,17 +58,51 @@ public class Day16 extends AbstractDay {
 
     @Override
     public void task2() {
+        int firstDuplicateIndex = findOutFirstDuplicateStateIndex(initState());
+        int offset = 1000000000 % firstDuplicateIndex;
+
         char[] state = initState();
-        System.out.println(System.currentTimeMillis());
-        for (int i = 0; i < 1000000000; i++) {
-            for (Function<char[], char[]> danceMove : danceMoves) {
-                state = danceMove.apply(state);
-            }
+        for (int i = 0; i < offset; i++) {
+            state = oneIterationRound(state);
         }
 
         String finalState = stateToString(state);
 
         System.out.println("Task 2: state after 1.000.000.000 iterations: " + finalState);
-
     }
+
+    public int findOutFirstDuplicateStateIndex(char[] initialState) {
+        List<char[]> states = new ArrayList<>();
+        states.add(initialState);
+        char[] iterState = initialState;
+        for (int i = 1; i <= 1000000000; i++) {
+            iterState = oneIterationRound(iterState);
+            int firstDoubleIndex = indexOf(iterState, states);
+            if (firstDoubleIndex > -1) {
+                return firstDoubleIndex;
+            }
+            if (i % 10000 == 0) {
+                System.out.println(i);
+            }
+
+        }
+        return -1;
+    }
+
+    private char[] oneIterationRound(char[] iterState) {
+        for (Function<char[], char[]> danceMove : danceMoves) {
+            iterState = danceMove.apply(iterState);
+        }
+        return iterState;
+    }
+
+    private int indexOf(char[] state, List<char[]> states) {
+        for (int i = 0; i < states.size(); i++) {
+            if (Arrays.equals(states.get(i), state)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 }
