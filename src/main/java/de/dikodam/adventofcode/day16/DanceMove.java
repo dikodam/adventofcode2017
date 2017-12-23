@@ -42,6 +42,17 @@ public class DanceMove {
         }
     }
 
+    public Function<String, String> getDanceOperationForStrings() {
+        switch (operation) {
+            case 's':
+                return spinString();
+            case 'x':
+                return exchangeString();
+            default:
+                return partnerString();
+        }
+    }
+
     private Function<char[], char[]> spin() {
         return (state) -> {
             char[] newState = new char[state.length];
@@ -52,8 +63,30 @@ public class DanceMove {
         };
     }
 
+    private Function<String, String> spinString() {
+        return (string) -> {
+            int offset = firstArg;
+            String rightShift = string.substring(0, string.length() - offset - 1);
+            String carryOver = string.substring(string.length() - offset);
+            return carryOver + rightShift;
+        };
+    }
+
     private Function<char[], char[]> exchange() {
         return (state) -> swap(state, firstArg, secondArg);
+    }
+
+    private Function<String, String> exchangeString() {
+        return (state) -> swapString(state, firstArg, secondArg);
+    }
+
+    private String swapString(String state, int firstArg, int secondArg) {
+        char firstChar = state.charAt(firstArg);
+        char secondChar = state.charAt(secondArg);
+        StringBuilder sb = new StringBuilder(state);
+        sb.setCharAt(firstArg, secondChar);
+        sb.setCharAt(secondArg, firstChar);
+        return sb.toString();
     }
 
     private Function<char[], char[]> partner() {
@@ -65,6 +98,18 @@ public class DanceMove {
             int secondIndex = findIndexOf(secondChar, state);
 
             return swap(state, firstIndex, secondIndex);
+        };
+    }
+
+    private Function<String, String> partnerString() {
+        return (string) -> {
+            char firstChar = arguments.charAt(0);
+            char secondChar = arguments.charAt(2);
+
+            int firstIndex = string.indexOf(firstChar);
+            int secondIndex = string.indexOf(secondChar);
+
+            return swapString(string, firstIndex, secondIndex);
         };
     }
 
