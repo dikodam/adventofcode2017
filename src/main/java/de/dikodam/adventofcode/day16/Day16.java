@@ -84,7 +84,6 @@ public class Day16 extends AbstractDay {
             if (i % 10000 == 0) {
                 System.out.println(i);
             }
-
         }
         return -1;
     }

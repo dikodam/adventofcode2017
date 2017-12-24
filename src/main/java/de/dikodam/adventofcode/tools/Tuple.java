@@ -3,8 +3,8 @@ package de.dikodam.adventofcode.tools;
 import java.util.Objects;
 
 public class Tuple<X,Y> {
-    private final X x;
-    private final Y y;
+    protected X x;
+    protected Y y;
 
     public Tuple(X x, Y y) {
         this.x = x;
