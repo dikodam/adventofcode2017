@@ -2,27 +2,40 @@ package de.dikodam.adventofcode.tools;
 
 import java.util.Objects;
 
-public class Triple<A, B, C> {
-    private final A a;
-    private final B b;
-    private final C c;
+public class Triple<X, Y, Z> {
 
-    public Triple(A a, B b, C c) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
+    protected X x;
+    protected Y y;
+    protected Z z;
+
+    public Triple(X x, Y y, Z z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
-    public A getA() {
-        return a;
+    public X getX() {
+        return x;
     }
 
-    public B getB() {
-        return b;
+    public Y getY() {
+        return y;
     }
 
-    public C getC() {
-        return c;
+    public Z getZ() {
+        return z;
+    }
+
+    public void setX(X x) {
+        this.x = x;
+    }
+
+    public void setY(Y y) {
+        this.y = y;
+    }
+
+    public void setZ(Z z) {
+        this.z = z;
     }
 
     @Override
@@ -30,19 +43,18 @@ public class Triple<A, B, C> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Triple<?, ?, ?> triple = (Triple<?, ?, ?>) o;
-        return Objects.equals(a, triple.a) &&
-            Objects.equals(b, triple.b) &&
-            Objects.equals(c, triple.c);
+        return Objects.equals(x, triple.x) &&
+            Objects.equals(y, triple.y) &&
+            Objects.equals(z, triple.z);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(a, b, c);
+        return Objects.hash(x, y, z);
     }
 
     @Override
     public String toString() {
-        return String.format("[%s|%s|%s]", a, b, c);
+        return String.format("[%s|%s|%s]", x, y, z);
     }
 }

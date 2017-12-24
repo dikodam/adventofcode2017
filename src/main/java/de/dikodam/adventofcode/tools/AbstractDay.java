@@ -23,12 +23,11 @@ public abstract class AbstractDay {
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }
-
     }
 
     public List<String> getInput(String fileName) {
-        try (BufferedReader br = new BufferedReader(new FileReader(
-            new File(getClass().getResource("/" + fileName).toURI())))) {
+        try (FileReader reader = new FileReader(new File(getClass().getResource("/" + fileName).toURI()));
+             BufferedReader br = new BufferedReader(reader)) {
             return br.lines().collect(toList());
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
